@@ -6,7 +6,7 @@ dotenv.config()
 const configSchema = z.object({
   PORT: z.coerce.number().default(3000),
   HOST: z.string().default('localhost'),
-  WEBHOOK_SECRET: z.string(),
+  WEBHOOK_SECRET: z.string().default('secret'),
 })
 const parsedConfig = configSchema.safeParse(process.env)
 
