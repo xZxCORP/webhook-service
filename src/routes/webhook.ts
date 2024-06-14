@@ -12,8 +12,8 @@ const dockerServiceBodySchema = z.object({
   secret: z.string(),
 })
 
-webhookRouter.put('/docker-service', zValidator('form', dockerServiceBodySchema), async (c) => {
-  const validated = c.req.valid('form')
+webhookRouter.put('/docker-service', zValidator('json', dockerServiceBodySchema), async (c) => {
+  const validated = c.req.valid('json')
 
   if (validated.secret !== config.WEBHOOK_SECRET) {
     return c.json({ status: 'error', message: 'Invalid secret' }, 403)
