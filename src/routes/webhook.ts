@@ -9,6 +9,7 @@ export const webhookRouter = new Hono()
 
 const dockerServiceBodySchema = z.object({
   service: z.string(),
+  image: z.string(),
   secret: z.string(),
 })
 
@@ -19,7 +20,7 @@ webhookRouter.put('/docker-service', zValidator('json', dockerServiceBodySchema)
     return c.json({ status: 'error', message: 'Invalid secret' }, 403)
   }
   try {
-    await dockerService.updateService(validated.service)
+    await dockerService.updateService(validated.service, validated.image)
     return c.json({ status: 'success' })
   } catch {
     return c.json({ status: 'error', message: 'Service update failed' }, 500)
